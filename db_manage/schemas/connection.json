@@ -2,9 +2,12 @@
     "Connection":{
         "name": "VARCHAR(100)",
         "connector_type": "VARCHAR(100)",
-        "connector_id": "INT"
+        "connector_id": "INT",
+        "scope": "VARCHAR(100)",
+        "account_id": "INT",
+        "project_id": "INT"
     },
-    "githubRepo":{
+    "GithubRepo":{
         "account": "VARCHAR(100)",
         "orginaization": "VARCHAR(100)",
         "pat": "VARCHAR(100)",
@@ -15,16 +18,16 @@
         "installation_token": "VARCHAR(100)",
         "key_path": "VARCHAR(100)"
     },
-    "jenkins": {
+    "Jenkins": {
         "host": "VARCHAR(100)",
         "token": "VARCHAR(100)",
         "username": "VARCHAR(100)"
     },
-    "dockerhub": {
+    "Dockerhub": {
         "username": "VARCHAR(100)",
         "token": "VARCHAR(100)"
     },
-    "k8s": {
+    "K8s": {
         "cloud": "VARCHAR(100)",
         "kubeconfig_path": "VARCHAR(100)"
     }

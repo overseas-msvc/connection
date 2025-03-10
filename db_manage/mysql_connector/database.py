@@ -2,13 +2,13 @@ import os
 import json
 
 from db_manage.mysql_connector.db_connector import DBConnector
-from db_manage.values import schemas_path
+from db_manage.local_values import schemas_path
 
 
 
 class Database:
     def __init__(self, name):
-        self.name = name.title()
+        self.name = name
         self.schemas = os.path.join(f"{schemas_path}", f"{name}.json")
         self.init()
 
@@ -20,45 +20,52 @@ class Database:
 
     def add_object(self, object_type, data):
         with DBConnector(self.name) as db:
-            id = db.write_row(object_type.title(), data)
+            id = db.write_row(object_type, data)
             return id
 
     def get_list_of_objects(self, object_type, conditions={}, inJson=False):
         objs = []
         with DBConnector(self.name) as db:
-            rows = db.get_rows(object_type.title(), conditions)
+            rows = db.get_rows(object_type, conditions)
         if inJson:
             return rows
-        command_str = self.create_class(object_type.title())
+        command_str = self.create_class(object_type)
         for row in rows:
             exec(f"{command_str}\nobjs.append({object_type.title()}(row))")
         return objs
 
     def get_object_by_id(self, object_type, id, inJson=False):
         with DBConnector(self.name) as db:
-            row = db.get_row(object_type.title(), {"id": id})
+            row = db.get_row(object_type, {"id": id})
         if inJson:
             return row
-        command_str = self.create_class(object_type.title())
-        exec(f"{command_str}\nrow = {object_type.title()}(row)")
+        if row:
+            return self.get_class(object_type, row)
         return row
     
     def update_object(self, object_type, id, data):
         with DBConnector(self.name) as db:
-            row = db.update_row(object_type.title(), id, data)
+            row = db.update_row(object_type, id, data)
 
     def delete_object(self, object_type, id):
         with DBConnector(self.name) as db:
-            row = db.delete_row(object_type.title(), id)
+            row = db.delete_row(object_type, id)
 
 
     def create_class(self, class_name):
+        class_name = class_name.title()
         command_str = f"class {class_name}:\n\t"
         command_str += f"def __init__(self, data):\n\t\t"
         with open(f"{self.schemas}", 'r') as f:
-            object_schema = json.loads(f.read())[class_name.title()]
+            object_schema = json.loads(f.read())[class_name]
         command_str += f"self.id = data[\"id\"]\n\t\t"
         for attr in object_schema.keys():
             command_str += f"self.{attr} = data[\"{attr}\"] if \"{attr}\" in data else None\n\t\t"
         return command_str
         
+
+    def get_class(self, class_name, data):
+        obj = []
+        command_str = self.create_class(class_name)
+        exec(f"{command_str}\nobj.append({class_name.title()}(data))")
+        return obj[0]

@@ -69,6 +69,7 @@ class DBConnector:
             query += f" {key} = '{value}' "
         query += f" WHERE id = {id};"
         self.cursor.execute(query)
+        self.conn.commit()
 
     def filter_table(self, table, columns, value=""):
         query = f"SELECT * FROM {table} WHERE "
@@ -109,6 +110,12 @@ class DBConnector:
         results = self.get_rows(table, conditions)
         if results:
             return results[0]
+        return None
+    
+    def delete_row(self, table, id):
+        query = f"DELETE FROM {table} WHERE id = {id};"
+        self.cursor.execute(query)
+        self.conn.commit()
         return None
 
     def close(self):
