@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connection
+  labels:
+    service: connection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: connection
+  template:
+    metadata:
+      labels:
+        service: connection
+    spec:
+      containers:
+      - name: connection-container
+        image: hhana982/connection:1.5
+        ports:
+        - containerPort: 5000
+        env: 
+        - name: num
+          value: "5"
