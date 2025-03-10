@@ -19,6 +19,4 @@ spec:
         image: hhana982/connection:1.<version>
         ports:
         - containerPort: 5000
-        env: 
-        - name: num
-          value: "5"
+
