@@ -49,7 +49,7 @@ def delete_connection():
 	db = Database("Connection")
 	conn = db.get_object_by_id("Connection", data["id"])
 	if not conn:
-		return f"couldnt find a connection with id: {data["id"]}", 400
+		return f"couldnt find a connection with id: {data['id']}", 400
 	db.delete_object(conn.connector_type, conn.connector_id)
 	db.delete_object("Connection", data["id"])
 	return "", 200
