@@ -2,7 +2,7 @@ import os
 import json
 
 from db_manage.mysql_connector.db_connector import DBConnector
-from db_manage.local_values import schemas_path
+from db_manage.values import schemas_path
 
 
 
