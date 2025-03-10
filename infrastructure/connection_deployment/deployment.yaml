@@ -3,15 +3,18 @@ kind: Deployment
 metadata:
   name: connection
   labels:
+    app: connection
     service: connection
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: connection
       service: connection
   template:
     metadata:
       labels:
+        app: connection
         service: connection
     spec:
       containers:

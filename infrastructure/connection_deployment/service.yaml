@@ -6,6 +6,7 @@ metadata:
     service: connection
 spec:
   selector:
+    app: connection
     service: connection
   ports:
     - protocol: TCP
