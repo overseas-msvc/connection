@@ -33,7 +33,8 @@ def create_connection():
 	data["connector_id"] = connector_id
 	if connector_id:
 		conn = db.add_object("Connection", data)
-	return json.dumps(conn), 200
+		return json.dumps(conn), 200
+	return "failed to create connection", 500
 
 @app.route("/connection", methods=["PUT"])
 def update_connection():
