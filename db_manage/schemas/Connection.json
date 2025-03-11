@@ -29,6 +29,8 @@
     },
     "K8s": {
         "cloud": "VARCHAR(100)",
+        "cloud_vendor": "VARCHAR(50)",
+        "cloud_id": "INT",
         "kubeconfig_path": "VARCHAR(100)"
     }
 }
