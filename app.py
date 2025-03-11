@@ -2,8 +2,11 @@ import json
 
 from flask import Flask, request
 from db_manage.mysql_connector.database import Database
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, supports_credentials=True)
 
 @app.route("/connections", methods=["GET"])
 def get_connections():
