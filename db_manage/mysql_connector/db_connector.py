@@ -46,6 +46,14 @@ class DBConnector:
         self.cursor.execute(query, (self.database, table))
         result = self.cursor.fetchone()
         return result[0] > 0
+    
+    def get_tables_columns(self, table):
+        query = f"SHOW COLUMNS FROM {table};"
+        self.cursor.execute(query)
+        results = self.cursor.fetchall()
+        if results:
+            results = [result[0] for result in results]
+        return results
         
     def write_row(self, table, obj):
         columns = obj.keys()
@@ -79,7 +87,7 @@ class DBConnector:
             if first:
                 first = False
             else:
-                query += "OR "
+                query += " OR "
             query += f"{column} LIKE '%{value}%'"
         query += ";"
         self.cursor.execute(query)

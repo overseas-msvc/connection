@@ -9,8 +9,8 @@ app = Flask(__name__)
 def get_connections():
 	data = request.json
 	db = Database("Connection")
-	condition = data["filter"] if "filter" in data else {}
-	objects = db.get_list_of_objects("Connection", condition, inJson=True)
+	filter = data["filter"] if "filter" in data else "" 
+	objects = db.get_filtered_list_of_objects("Connection", filter, include_columns=["name", "connector_type"], inJson=True)
 	return json.dumps(objects)
 
 @app.route("/connection", methods=["GET"])

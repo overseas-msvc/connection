@@ -33,6 +33,25 @@ class Database:
         for row in rows:
             exec(f"{command_str}\nobjs.append({object_type.title()}(row))")
         return objs
+    
+    def get_filtered_list_of_objects(self, object_type, filter="", include_columns=[], exclude_columns=[], inJson=False):
+        objs = []
+        with DBConnector(self.name) as db:
+            if include_columns:
+                columns = include_columns
+            else:
+                columns = db.get_tables_columns(object_type)
+                exclude_columns.append("id")
+                for column in exclude_columns:
+                    if column in columns:
+                        columns.remove(column)
+            rows = db.filter_table(object_type, columns, filter)
+        if inJson:
+            return rows
+        command_str = self.create_class(object_type)
+        for row in rows:
+            exec(f"{command_str}\nobjs.append({object_type.title()}(row))")
+        return objs
 
     def get_object_by_id(self, object_type, id, inJson=False):
         with DBConnector(self.name) as db:
