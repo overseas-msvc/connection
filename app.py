@@ -10,9 +10,8 @@ CORS(app, supports_credentials=True)
 
 @app.route("/connections", methods=["GET"])
 def get_connections():
-	data = request.json
+	filter = request.args.get("filter", "")
 	db = Database("Connection")
-	filter = data["filter"] if "filter" in data else "" 
 	objects = db.get_filtered_list_of_objects("Connection", filter, include_columns=["name", "connector_type"], inJson=True)
 	return json.dumps(objects)
 
