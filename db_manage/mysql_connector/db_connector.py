@@ -3,6 +3,7 @@ import re
 import json
 import mysql.connector
 from db_manage.values import *
+import logging
 
 class DBConnector:
     def __init__(self, database=None):
@@ -54,7 +55,7 @@ class DBConnector:
         insert_query = f"INSERT INTO {table} ({columns_str}) VALUES ({values_str})"
         self.cursor.execute(insert_query)
         self.conn.commit()
-        print(f"Data inserted successfully into {table}.")
+        logging.debug(f"Data inserted successfully into {table}.")
         return self.cursor.lastrowid
     
     def update_row(self, table, id, obj):
@@ -135,7 +136,7 @@ class DBConnector:
         """Close the database connection when exiting the context."""
         self.close()
         if exc_type:
-            print(f"An error occurred: {exc_val}")
+            logging.error(f"An error occurred: {exc_val}")
         return True
 
 

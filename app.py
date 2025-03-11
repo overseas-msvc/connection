@@ -24,9 +24,7 @@ def get_connection():
 @app.route("/connection", methods=["POST"])
 def create_connection():
 	data = request.json
-
 	connector_type = data["connector_type"]
-	
 	db = Database("Connection")
 	connector_id = db.add_object(connector_type, data[connector_type])
 	del data[connector_type]
