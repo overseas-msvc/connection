@@ -10,7 +10,7 @@
     "Github":{
         "account": "VARCHAR(100)",
         "organization": "VARCHAR(100)",
-        "pat": "VARCHAR(100)",
+        "pat": "VARCHAR(150)",
         "username": "VARCHAR(100)",
         "app_id": "VARCHAR(100)",
         "client_id": "VARCHAR(100)",
