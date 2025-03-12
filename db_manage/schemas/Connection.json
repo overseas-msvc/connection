@@ -7,7 +7,7 @@
         "account_id": "INT",
         "project_id": "INT"
     },
-    "GithubRepo":{
+    "Github":{
         "account": "VARCHAR(100)",
         "orginaization": "VARCHAR(100)",
         "pat": "VARCHAR(100)",
