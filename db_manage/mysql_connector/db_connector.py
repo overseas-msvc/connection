@@ -67,6 +67,8 @@ class DBConnector:
         return self.cursor.lastrowid
     
     def update_row(self, table, id, obj):
+        if not obj:
+            return
         query = f"UPDATE {table}"
         first = True
         for key, value in obj.items():
