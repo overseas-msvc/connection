@@ -31,7 +31,7 @@ def create_connection():
 	connector_type = data["connector_type"]
 	db = Database("Connection")
 	if db.get_list_of_objects("Connection", {"name": data["name"]}):
-		return f"connection with name '{data["name"]}' already exists"
+		return f"connection with name '{data['name']}' already exists"
 	data = save_files(db, data, connector_type)
 	connector_id = db.add_object(connector_type, data[connector_type])
 	data["connector_id"] = connector_id
