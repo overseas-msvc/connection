@@ -4,8 +4,10 @@ import uuid, os
 def delete_files(db, conn):
     data = db.get_object_by_id(conn.connector_type, conn.connector_id, inJson=True)
     for key, value in data.items():
-         if key.endswith("_file_uuid"):
-              os.remove(os.path.join("file_storage", conn.connector_type, value))
+         if key.endswith("_file_uuid") and data[key]:
+              filepath = os.path.join("file_storage", conn.connector_type, value)
+              if os.path.exists(filepath):
+                os.remove(filepath)
 
 def save_files(db, data, connector_type, id=None):
     if id:
