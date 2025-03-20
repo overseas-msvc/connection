@@ -30,6 +30,8 @@ def create_connection():
 	data = request.json
 	connector_type = data["connector_type"]
 	db = Database("Connection")
+	if db.get_list_of_objects("Connection", {"name": data["name"]}):
+		return f"connection with name '{data["name"]}' already exists"
 	data = save_files(db, data, connector_type)
 	connector_id = db.add_object(connector_type, data[connector_type])
 	data["connector_id"] = connector_id
@@ -55,7 +57,7 @@ def delete_connection():
 	conn = db.get_object_by_id("Connection", id)
 	if not conn:
 		return f"couldnt find a connection with id: {id}", 400
-	delete_files(db.get_object_by_id(conn.connector_type, conn.connector_id, inJson=True), conn.connector_type)
+	delete_files(db, conn)
 	db.delete_object(conn.connector_type, conn.connector_id)
 	db.delete_object("Connection", id)
 	return "", 200
