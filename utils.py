@@ -37,3 +37,12 @@ def get_uid(connector_type):
         uid = str(uuid.uuid4())
         filepath = os.path.join("file_storage", connector_type, uid)
     return filepath, uid
+
+def get_file_from_storage(connector_type, conn, filename):
+    filepath = os.path.join("file_storage", connector_type, getattr(conn, f"{filename}_file_uuid"))
+    with open(filepath, "r") as f:
+        file_content = f.read()
+    return {
+         "file_name": filename,
+         "file_content": file_content
+    }

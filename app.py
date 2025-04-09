@@ -4,7 +4,7 @@ from flask import Flask, request
 from db_manage.mysql_connector.database import Database
 from flask_cors import CORS
 
-from utils import save_files, delete_files
+from utils import save_files, delete_files, get_file_from_storage
 
 app = Flask(__name__)
 
@@ -24,6 +24,16 @@ def get_connection():
 	conn = db.get_object_by_id("Connection", id)
 	conn = db.get_object_by_id(conn.connector_type, conn.connector_id, inJson=True)
 	return json.dumps(conn)
+
+@app.route("/get_file", methods=["GET"])
+def get_file():
+	id = request.args.get("id")
+	data = request.json
+	db = Database("Connection")
+	conn = db.get_object_by_id("Connection", id)
+	conn_instance = db.get_object_by_id(conn.connector_type, conn.connector_id)
+	file = get_file_from_storage(conn.connector_type, conn_instance, data["filename"])
+	return file
 
 @app.route("/connection", methods=["POST"])
 def create_connection():

@@ -72,7 +72,7 @@ class Database:
 
 
     def create_class(self, class_name):
-        class_name = class_name.title()
+        class_name = class_name
         command_str = f"class {class_name}:\n\t"
         command_str += f"def __init__(self, data):\n\t\t"
         with open(f"{self.schemas}", 'r') as f:
@@ -86,5 +86,5 @@ class Database:
     def get_class(self, class_name, data):
         obj = []
         command_str = self.create_class(class_name)
-        exec(f"{command_str}\nobj.append({class_name.title()}(data))")
+        exec(f"{command_str}\nobj.append({class_name}(data))")
         return obj[0]
